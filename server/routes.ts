@@ -3,12 +3,41 @@ import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import fetch from "node-fetch";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
   
+  app.post("/api/recommend", async (req, res) => {
+    try {
+      const { N, P, K, ph, location } = req.body;
+
+      // Real-time weather data (Mocked for Indian conditions)
+      const temp = 25 + Math.random() * 10;
+      const hum = 60 + Math.random() * 30;
+      const rain = 100 + Math.random() * 100;
+
+      // Call Python ML service
+      const mlResponse = await fetch("http://localhost:5001/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ N, P, K, ph, temp, hum, rain })
+      });
+
+      if (!mlResponse.ok) {
+        throw new Error("ML service error");
+      }
+
+      const result = await mlResponse.json();
+      res.json(result);
+    } catch (error) {
+      console.error("Recommendation error:", error);
+      res.status(500).json({ message: "Failed to get crop recommendations" });
+    }
+  });
+
   app.get(api.scans.list.path, async (req, res) => {
     const scansList = await storage.getScans();
     res.json(scansList);
