@@ -47,6 +47,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <History className="w-4 h-4" />
                 <span className="hidden sm:inline">History</span>
               </Link>
+
+              <Link
+                href="/recommendations"
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all duration-200 ${
+                  location === "/recommendations"
+                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+                    : "text-muted-foreground hover:bg-black/5 hover:text-foreground"
+                }`}
+              >
+                <Sprout className="w-4 h-4" />
+                <span className="hidden sm:inline">Crop Suggestion</span>
+              </Link>
             </nav>
           </div>
         </div>

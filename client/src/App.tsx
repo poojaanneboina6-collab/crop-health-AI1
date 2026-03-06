@@ -7,12 +7,14 @@ import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/home";
 import History from "@/pages/history";
+import Recommendations from "@/pages/recommendations";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/history" component={History} />
+      <Route path="/recommendations" component={Recommendations} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
