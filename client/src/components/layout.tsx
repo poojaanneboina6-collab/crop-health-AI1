@@ -15,10 +15,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </div>
               <div>
                 <h1 className="text-2xl font-display font-extrabold text-foreground tracking-tight">
-                  Agri<span className="text-primary">Shield</span>
+                  Crop Health <span className="text-primary">AI</span>
                 </h1>
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
-                  Crop AI Diagnostic
+                  Smart Agriculture Diagnostic
                 </p>
               </div>
             </Link>
@@ -57,7 +57,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </main>
       
       <footer className="py-8 text-center text-muted-foreground text-sm font-medium border-t border-black/5 mt-auto glass-panel">
-        <p>© {new Date().getFullYear()} AgriShield AI. Precision farming made simple.</p>
+        <p>© {new Date().getFullYear()} Crop Health AI. Precision farming made simple.</p>
       </footer>
     </div>
   );

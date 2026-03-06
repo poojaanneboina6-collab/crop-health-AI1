@@ -9,9 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 
 const LANGUAGES = [
   { code: "en", label: "English" },
-  { code: "es", label: "Español" },
-  { code: "hi", label: "हिन्दी" },
-  { code: "fr", label: "Français" },
+  { code: "hi", label: "हिन्दी (Hindi)" },
+  { code: "te", label: "తెలుగు (Telugu)" },
 ];
 
 export default function Home() {

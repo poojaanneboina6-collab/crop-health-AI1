@@ -34,46 +34,77 @@ export async function registerRoutes(
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       const diseases = [
-        { name: "Late Blight", treatment: "Copper-based fungicide" },
-        { name: "Leaf Curl", treatment: "Neem oil application" },
-        { name: "Healthy", treatment: "None needed" },
-        { name: "Powdery Mildew", treatment: "Sulfur dust or potassium bicarbonate" }
+        { name: "Late Blight", treatment: "Copper-based fungicide", name_te: "లేట్ బ్లైట్", treatment_te: "రాగి ఆధారిత శిలీంద్ర సంహారిణి", name_hi: "पछेती झुलसा", treatment_hi: "तांबा आधारित कवकनाशी" },
+        { name: "Leaf Curl", treatment: "Neem oil application", name_te: "ఆకు ముడత", treatment_te: "వేప నూనె వాడకం", name_hi: "लीफ कर्ल", treatment_hi: "नीम के तेल का उपयोग" },
+        { name: "Healthy", treatment: "None needed", name_te: "ఆరోగ్యకరమైనది", treatment_te: "ఏమీ అవసరం లేదు", name_hi: "स्वस्थ", treatment_hi: "किसी उपचार की आवश्यकता नहीं है" },
+        { name: "Powdery Mildew", treatment: "Sulfur dust or potassium bicarbonate", name_te: "బూజు తెగులు", treatment_te: "సల్ఫర్ పొడి లేదా పొటాషియం బైకార్బోనేట్", name_hi: "पाउडरी मिल्ड्यू", treatment_hi: "सल्फर डस्ट या पोटेशियम बाइकार्बोनेट" },
+        { name: "Rice Blast", treatment: "Tricyclazole spray", name_te: "వరి అగ్గి తెగులు", treatment_te: "ట్రైసైక్లాజోల్ స్ప్రే", name_hi: "धान का ब्लास्ट", treatment_hi: "ट्राइसाइक्लाज़ोल स्प्रे" },
+        { name: "Bacterial Blight", treatment: "Streptocycline spray", name_te: "బాక్టీరియల్ బ్లైట్", treatment_te: "స్ట్రెప్టోసైక్లిన్ స్ప్రే", name_hi: "बैक्टीरियल ब्लाइट", treatment_hi: "स्ट्रेप्टोसाइक्लिन स्प्रे" },
+        { name: "Rust", treatment: "Mancozeb application", name_te: "తుప్పు తెగులు", treatment_te: "మాంకోజెబ్ వాడకం", name_hi: "रस्ट (गेरूआ)", treatment_hi: "मैंकोजेब का उपयोग" },
+        { name: "Tomato Early Blight", treatment: "Chlorothalonil fungicide", name_te: "టమోటా ముందస్తు తెగులు", treatment_te: "క్లోరోథలోనిల్ శిలీంద్ర సంహారిణి", name_hi: "टमाटर अगेती झुलसा", treatment_hi: "क्लोरोथालोनिल कवकनाशी" },
+        { name: "Citrus Canker", treatment: "Pruning and copper spray", name_te: "నిమ్మ గజ్జి తెగులు", treatment_te: "కత్తిరింపు మరియు రాగి స్ప్రే", name_hi: "सिट्रस कैंकर", treatment_hi: "छंटाई और तांबा स्प्रे" },
+        { name: "Black Rot", treatment: "Crop rotation and clean seeds", name_te: "నలుపు కుళ్లు తెగులు", treatment_te: "పంట మార్పిడి మరియు శుభ్రమైన విత్తనాలు", name_hi: "ब्लैक रॉट", treatment_hi: "फसल चक्र और साफ बीज" }
       ];
+
+      // Simulate 50+ diseases by generating variants if needed, but here we provide a solid base
+      // For the prototype, we use a rich list and random selection.
       
       // Pick random disease to simulate AI output
       const randomDisease = diseases[Math.floor(Math.random() * diseases.length)];
       const confidence = 85 + (Math.random() * 14); // 85% to 99%
       
       // MOCK SEARCH SUPPLIER 
-      // If coordinates are provided, pretend we found a place near them.
-      let supplierName = "Global Ag-Supply Chain";
-      let supplierAddress = "Online Delivery";
+      // Supported Indian States list for location mocking
+      const indianStates = [
+        "Andhra Pradesh", "Telangana", "Karnataka", "Tamil Nadu", "Maharashtra", 
+        "Gujarat", "Rajasthan", "Punjab", "Haryana", "Uttar Pradesh", "Bihar", 
+        "West Bengal", "Madhya Pradesh", "Odisha", "Kerala", "Assam"
+      ];
+      const randomState = indianStates[Math.floor(Math.random() * indianStates.length)];
+
+      let supplierName = "Bharat Agri-Supply Chain";
+      let supplierAddress = "Pan-India Delivery";
       
       if (input.latitude && input.longitude) {
-         supplierName = "Local Farmers Co-op";
-         supplierAddress = `${Math.abs(input.latitude).toFixed(2)}° N, ${Math.abs(input.longitude).toFixed(2)}° W - 2.4 miles away`;
+         supplierName = `${randomState} Farmers Cooperative`;
+         supplierAddress = `${randomState}, India - Nearest Hub: 5km away`;
       }
       
       // MOCK TRANSLATION
       // Outputting a translated string based on input.language
-      let translatedOutput = `Disease detected: ${randomDisease.name}. Recommended treatment: ${randomDisease.treatment}. Supplier: ${supplierName}.`;
-      
-      if (input.language === 'es') {
-        translatedOutput = `Enfermedad detectada: ${randomDisease.name}. Tratamiento recomendado: ${randomDisease.treatment}. Proveedor: ${supplierName}.`;
-      } else if (input.language === 'fr') {
-        translatedOutput = `Maladie détectée: ${randomDisease.name}. Traitement recommandé: ${randomDisease.treatment}. Fournisseur: ${supplierName}.`;
+      let dName = randomDisease.name;
+      let dTreatment = randomDisease.treatment;
+      let sName = supplierName;
+      let sAddress = supplierAddress;
+
+      if (input.language === 'te') {
+        dName = randomDisease.name_te || randomDisease.name;
+        dTreatment = randomDisease.treatment_te || randomDisease.treatment;
+        sName = `${randomState} రైతు సహకార సంఘం`;
+        sAddress = `${randomState}, భారతదేశం - సమీప కేంద్రం: 5 కి.మీ దూరంలో`;
       } else if (input.language === 'hi') {
-        translatedOutput = `बीमारी का पता चला: ${randomDisease.name}. अनुशंसित उपचार: ${randomDisease.treatment}. सप्लायर: ${supplierName}.`;
+        dName = randomDisease.name_hi || randomDisease.name;
+        dTreatment = randomDisease.treatment_hi || randomDisease.treatment;
+        sName = `${randomState} किसान सहकारी समिति`;
+        sAddress = `${randomState}, भारत - निकटतम केंद्र: 5 किमी दूर`;
+      }
+
+      let translatedOutput = `Disease detected: ${dName}. Recommended treatment: ${dTreatment}. Supplier: ${sName}. Address: ${sAddress}.`;
+      
+      if (input.language === 'te') {
+        translatedOutput = `గుర్తించబడిన వ్యాధి: ${dName}. సిఫార్సు చేయబడిన చికిత్స: ${dTreatment}. సరఫరాదారు: ${sName}. చిరునామా: ${sAddress}.`;
+      } else if (input.language === 'hi') {
+        translatedOutput = `पहचानी गई बीमारी: ${dName}। अनुशंसित उपचार: ${dTreatment}। आपूर्तिकर्ता: ${sName}। पता: ${sAddress}।`;
       }
 
       const newScan = await storage.createScan({
-        imageUrl: input.image, // Ideally upload to S3/Cloud Storage, here just storing base64
+        imageUrl: input.image,
         language: input.language,
-        diseaseName: randomDisease.name,
+        diseaseName: dName,
         diseaseConfidence: confidence,
-        treatment: randomDisease.treatment,
-        supplierName,
-        supplierAddress,
+        treatment: dTreatment,
+        supplierName: sName,
+        supplierAddress: sAddress,
         translatedOutput
       });
 
