@@ -17,7 +17,8 @@ export default function Recommendations() {
     P: "",
     K: "",
     ph: "",
-    location: ""
+    location: "",
+    rainfall: ""
   });
 
   const mutation = useMutation({
@@ -27,7 +28,8 @@ export default function Recommendations() {
         N: Number(data.N),
         P: Number(data.P),
         K: Number(data.K),
-        ph: Number(data.ph)
+        ph: Number(data.ph),
+        rainfall: data.rainfall ? Number(data.rainfall) : undefined
       });
       return res.json();
     },
@@ -108,6 +110,16 @@ export default function Recommendations() {
                       id="location" className="pl-10" placeholder="e.g. Hyderabad, Telangana" 
                       value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})}
                       required 
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="rainfall">Annual Rainfall (mm) - Optional</Label>
+                  <div className="relative">
+                    <Droplets className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                    <Input 
+                      id="rainfall" type="number" className="pl-10" placeholder="e.g. 1100" 
+                      value={formData.rainfall} onChange={e => setFormData({...formData, rainfall: e.target.value})}
                     />
                   </div>
                 </div>
